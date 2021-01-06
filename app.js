@@ -97,8 +97,8 @@ function searchByTraits(people){
   let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
+      console.log("whatup");
       return searchByTraits(foundPeople);
-      break;
     case 'no':
       //Go to the next logical step for user
       break;
