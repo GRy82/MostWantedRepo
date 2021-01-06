@@ -62,7 +62,7 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      document.write("Descendants: " + foundDescendant + ". ")
+      document.write("Descendants: " + foundDescendant + ".  ")
       break;
     case "restart":
       app(people); // restart
