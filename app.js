@@ -107,6 +107,22 @@ function searchByTraits(people){
   }
 }
 
+function searchSingleTrait(people) {
+  let traitType = promptFor("Enter EXACTLY what trait to search by(gender, dob, height, weight, eyeColor, occupation): ", chars);
+  let trait = promptFor("Enter person's " + traitType + ": ", chars);
+
+  let foundPeople = people.filter(function (person) {
+    if (person[traitType] === trait) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+  
+  return foundPeople;
+}
+
+
 
 
 // alerts a list of people
