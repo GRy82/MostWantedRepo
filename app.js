@@ -53,7 +53,7 @@ function mainMenu(person, people) {
         "DOB: " + person.dob + ". " +
         "Height: " + person.height + ". " +
         "Weight: " + person.weight + ". " +
-        "EyeColor: " + person.eyeColor + ". " +
+        "Eye Color: " + person.eyeColor + ". " +
         "occupation: " + person.occupation + ". ")
       break;
     case "family":
@@ -62,7 +62,7 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      document.write("Descendants: " + foundDescendant + ". ")
+      document.write("Descendants: " + foundDescendant + ".  ")
       break;
     case "restart":
       app(people); // restart
@@ -137,7 +137,14 @@ function displayPerson(person) {
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Age: " + person.age + "\n";
+  personInfo += "Occupation " + person.occupation + "\n";
+  personInfo += "Eye color: " + person.eyeColor + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
   // TODO: finish getting the rest of the information to display
+  
   alert(personInfo);
 }
 
