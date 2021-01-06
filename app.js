@@ -12,7 +12,7 @@ function app(people) {
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
+      searchResults = searchByTraits(people);
       break;
     default:
       app(people); // restart app
@@ -90,6 +90,24 @@ function searchByName(people) {
   // TODO: find the person using the name they entered
   return foundPerson;
 }
+
+function searchByTraits(people){
+  let foundPeople = searchSingleTrait(people);
+  let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  switch(searchType){
+    case 'yes':
+      return searchByTraits(foundPeople);
+      break;
+    case 'no':
+      //Go to the next logical step for user
+      break;
+    default:
+      searchByTraits(people); // restart app
+      break;
+  }
+}
+
+
 
 // alerts a list of people
 function displayPeople(people) {
