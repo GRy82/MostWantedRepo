@@ -93,6 +93,7 @@ function searchByName(people) {
 
 function searchByTraits(people){
   let foundPeople = searchSingleTrait(people);
+  displayPeople(foundPeople);
   let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
