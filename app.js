@@ -35,10 +35,10 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
 
-  let displayOption = prompt("Found " + person[1] + " " + person[2] + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-  
+  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+
   let foundDescendant = people.filter(function (person) {
-    if (person.parents.includes(person.id)) {
+    if (person[0].parents.includes(person[0].id)) {
       return true;
     } else {
       return false;
@@ -48,17 +48,18 @@ function mainMenu(person, people) {
   switch (displayOption) {
     case "info":
       // TODO: get person's info
-      alert(displayPerson(person))
-        // "Gender: " + person.gender + ". " +
-        // "DOB: " + person.dob + ". " +
-        // "Height: " + person.height + ". " +
-        // "Weight: " + person.weight + ". " +
-        // "Eye Color: " + person.eyeColor + ". " +
-        // "occupation: " + person.occupation + ". ")
+    
+      alert(
+        "Gender: " + person[0].gender + ". " +
+        "DOB: " + person[0].dob + ". " +
+        "Height: " + person[0].height + ". " +
+        "Weight: " + person0[0].weight + ". " +
+        "Eye Color: " + person[0].eyeColor + ". " +
+        "occupation: " + person[0].occupation + ". ")
       break;
     case "family":
       // TODO: get person's family
-      alert("Spouse: " + person.currentSpouse + ". ")
+      alert("Spouse: " + person[0].currentSpouse + ". ")
       break;
     case "descendants":
       // TODO: get person's descendants
@@ -103,22 +104,26 @@ function searchByName(people) {
   return foundPerson;
 }
 
-function searchByTraits(people){
+function searchByTraits(people, counter){
   let foundPeople = searchSingleTrait(people);
   displayPeople(foundPeople);
   let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  switch(searchType){
+  switch(continueSearch){
     case 'yes':
-      console.log("whatup");
       return searchByTraits(foundPeople);
     case 'no':
-      //Go to the next logical step for user
+      if(foundPeople.length == 1){
+        return foundPeople;  
+      }
       break;
     default:
-      searchByTraits(people); // restart app
+      alert("Could not refine the search ot just one individual.");
+      app(data); // restart app
       break;
   }
-}
+}  
+
+
 
 function searchSingleTrait(people) {
   let traitType = promptFor("Enter EXACTLY what trait to search by(gender, dob, height, weight, eyeColor, occupation): ", chars);
@@ -156,6 +161,7 @@ function displayPerson(person) {
   personInfo += "Weight: " + person[6] + "\n";
   personInfo += "Eye color: " + person[7] + "\n";
   personInfo += "Occupation " + person[8] + "\n";
+  
   
  
   // TODO: finish getting the rest of the information to display
