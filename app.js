@@ -25,6 +25,7 @@ function app(people) {
 
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people) {
+  console.log(person);
 
   /* Here we pass in the entire person object that we found in our search, as well as the 
   entire original dataset of people. We need people in order to find descendants and other 
@@ -40,6 +41,7 @@ function mainMenu(person, people) {
   switch (displayOption) {
     case "info":
       // TODO: get person's info
+    
       alert(
         "Gender: " + person[0].gender + ". " +
         "DOB: " + person[0].dob + ". " +
@@ -69,6 +71,7 @@ function mainMenu(person, people) {
 }
 
 function getDescendants(person, people, allDescendants = new Array(), j = 0){
+  console.log(person);
   let foundDescendants = people.filter(function (possibleChild) {
     if (possibleChild.parents.includes(person[j].id)) {
       return true;
@@ -79,8 +82,8 @@ function getDescendants(person, people, allDescendants = new Array(), j = 0){
 
   if(foundDescendants.length > 0){
     for(let i = 0; i < foundDescendants.length; i++){
-      allDescendants.push(foundDescendants[i]);
       allDescendants = getDescendants(foundDescendants, people, allDescendants, i);
+      allDescendants.concat(foundDescendants);
     }
   }
   else{
@@ -163,14 +166,17 @@ function displayPeople(people) {
 function displayPerson(person) {
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight: " + person.weight + "\n";
-  personInfo += "Age: " + person.age + "\n";
-  personInfo += "Occupation " + person.occupation + "\n";
-  personInfo += "Eye color: " + person.eyeColor + "\n";
-  personInfo += "Gender: " + person.gender + "\n";
+  let personInfo = "First Name: " + person[1] + "\n";
+  personInfo += "Last Name: " + person[2] + "\n";
+  personInfo += "Gender: " + person[3] + "\n";
+  personInf0 += "DOB: " + person[4]  + "\n"
+  personInfo += "Height: " + person[5] + "\n";
+  personInfo += "Weight: " + person[6] + "\n";
+  personInfo += "Eye color: " + person[7] + "\n";
+  personInfo += "Occupation " + person[8] + "\n";
+  
+  
+ 
   // TODO: finish getting the rest of the information to display
   
   alert(personInfo);
