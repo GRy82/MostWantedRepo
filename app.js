@@ -35,8 +35,8 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
 
-  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+  let displayOption = prompt("Found " + person[1] + " " + person[2] + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  
   let foundDescendant = people.filter(function (person) {
     if (person.parents.includes(person.id)) {
       return true;
@@ -44,17 +44,17 @@ function mainMenu(person, people) {
       return false;
     }
   });
-
+  let displayResults;
   switch (displayOption) {
     case "info":
       // TODO: get person's info
-      alert(
-        "Gender: " + person.gender + ". " +
-        "DOB: " + person.dob + ". " +
-        "Height: " + person.height + ". " +
-        "Weight: " + person.weight + ". " +
-        "Eye Color: " + person.eyeColor + ". " +
-        "occupation: " + person.occupation + ". ")
+      alert(displayPerson(person))
+        // "Gender: " + person.gender + ". " +
+        // "DOB: " + person.dob + ". " +
+        // "Height: " + person.height + ". " +
+        // "Weight: " + person.weight + ". " +
+        // "Eye Color: " + person.eyeColor + ". " +
+        // "occupation: " + person.occupation + ". ")
       break;
     case "family":
       // TODO: get person's family
@@ -62,7 +62,7 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      document.write("Descendants: " + foundDescendant + ".  ")
+      alert("Descendants: " + foundDescendants + ".  ")
       break;
     case "restart":
       app(people); // restart
@@ -75,6 +75,18 @@ function mainMenu(person, people) {
 }
 
 
+
+function searchDescendants(people){
+  let foundDescendants = people.filter(function (person) {
+    if (person.parents !== person.id) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  return foundDescendants; 
+}
 
 function searchByName(people) {
   let firstName = promptFor("What is the person's first name?", chars);
@@ -136,14 +148,16 @@ function displayPeople(people) {
 function displayPerson(person) {
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight: " + person.weight + "\n";
-  personInfo += "Age: " + person.age + "\n";
-  personInfo += "Occupation " + person.occupation + "\n";
-  personInfo += "Eye color: " + person.eyeColor + "\n";
-  personInfo += "Gender: " + person.gender + "\n";
+  let personInfo = "First Name: " + person[1] + "\n";
+  personInfo += "Last Name: " + person[2] + "\n";
+  personInfo += "Gender: " + person[3] + "\n";
+  personInf0 += "DOB: " + person[4]  + "\n"
+  personInfo += "Height: " + person[5] + "\n";
+  personInfo += "Weight: " + person[6] + "\n";
+  personInfo += "Eye color: " + person[7] + "\n";
+  personInfo += "Occupation " + person[8] + "\n";
+  
+ 
   // TODO: finish getting the rest of the information to display
   
   alert(personInfo);
