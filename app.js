@@ -25,6 +25,7 @@ function app(people) {
 
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people) {
+  console.log(person);
 
   /* Here we pass in the entire person object that we found in our search, as well as the 
   entire original dataset of people. We need people in order to find descendants and other 
@@ -49,7 +50,9 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      alert("Descendants: " + getDescendants(person) + ".  ")
+      var descendants = [];
+      descendants = getDescendants(person, people);
+      printDescendants(descendants);
       break;
     case "restart":
       app(people); // restart
@@ -61,10 +64,8 @@ function mainMenu(person, people) {
   }
 }
 
-
-
-function getDescendants(person, people = data, allDescendants = [], j=0){
- //let allDescendants = [];
+function getDescendants(person, people, allDescendants = new Array(), j = 0){
+  console.log(person);
   let foundDescendants = people.filter(function (possibleChild) {
     if (possibleChild.parents.includes(person[j].id)) {
       return true;
@@ -83,6 +84,27 @@ function getDescendants(person, people = data, allDescendants = [], j=0){
 };
 
 
+
+  if(foundDescendants.length > 0){
+    for(let i = 0; i < foundDescendants.length; i++){
+      allDescendants = getDescendants(foundDescendants, people, allDescendants, i);
+      allDescendants.concat(foundDescendants);
+    }
+  }
+  else{
+    return allDescendants;
+  }
+
+  
+}
+
+function printDescendants(descendants){
+  let descendantsString = "";
+  for (let i = 0; i < descendants.length; i++){
+      descendantsString += descendants[i].firstName + descendants[i].lastName + "\n";
+    }
+    alert(descendantsString);
+}
 
 
 function searchByName(people) {
