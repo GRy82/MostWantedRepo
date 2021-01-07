@@ -36,28 +36,29 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
 
-  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch (displayOption) {
     case "info":
       // TODO: get person's info
     
       alert(
-        "Gender: " + person[0].gender + ". " +
-        "DOB: " + person[0].dob + ". " +
-        "Height: " + person[0].height + ". " +
-        "Weight: " + person[0].weight + ". " +
-        "Eye Color: " + person[0].eyeColor + ". " +
-        "occupation: " + person[0].occupation + ". ")
+        "Gender: " + person.gender + ". " +
+        "DOB: " + person.dob + ". " +
+        "Height: " + person.height + ". " +
+        "Weight: " + person.weight + ". " +
+        "Eye Color: " + person.eyeColor + ". " +
+        "occupation: " + person.occupation + ". ")
       break;
     case "family":
       // TODO: get person's family
-      alert("Spouse: " + person[0].currentSpouse + ". ")
+      alert("Spouse: " + person.currentSpouse + ". ")
       break;
     case "descendants":
       // TODO: get person's descendants
       var descendants = [];
-      descendants = getDescendants(person, people);
+      var allDescendants = new Array();
+      descendants = getDescendants(person, people, allDescendants);
       printDescendants(descendants);
       break;
     case "restart":
@@ -70,10 +71,10 @@ function mainMenu(person, people) {
   }
 }
 
-function getDescendants(person, people, allDescendants = new Array(), j = 0){
+function getDescendants(person, people, allDescendants){
   console.log(person);
   let foundDescendants = people.filter(function (possibleChild) {
-    if (possibleChild.parents.includes(person[j].id)) {
+    if (possibleChild.parents.includes(person.id)) {
       return true;
     } else {
       return false;
@@ -82,15 +83,14 @@ function getDescendants(person, people, allDescendants = new Array(), j = 0){
 
   if(foundDescendants.length > 0){
     for(let i = 0; i < foundDescendants.length; i++){
-      allDescendants = getDescendants(foundDescendants, people, allDescendants, i);
-      allDescendants.concat(foundDescendants);
+      allDescendants.push(foundDescendants[i]);
+      let temporaryArray = allDescendants;
+      allDescendants = getDescendants(foundDescendants[i], people, temporaryArray);
     }
   }
   else{
     return allDescendants;
   }
-
-  
 }
 
 function printDescendants(descendants){
@@ -114,7 +114,7 @@ function searchByName(people) {
     }
   })
   // TODO: find the person using the name they entered
-  return foundPerson;
+  return foundPerson[0];
 }
 
 function searchByTraits(people, counter){
