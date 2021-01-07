@@ -36,7 +36,7 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
 
-  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   
 
   switch (displayOption) {
@@ -66,7 +66,6 @@ function mainMenu(person, people) {
 }
 
 function getDescendants(person, people, allDescendants){
-  console.log(person);
   let foundDescendants = people.filter(function (possibleChild) {
     if (possibleChild.parents.includes(person.id)) {
       return true;
@@ -81,9 +80,10 @@ function getDescendants(person, people, allDescendants){
       allDescendants = getDescendants(foundDescendants[i], people, temporaryArray);
     }
   }
-  else{
-    return allDescendants;
-  }
+  
+  console.log(person.firstName + "completed");
+  return allDescendants;
+  
 }
 
 function printDescendants(descendants){
