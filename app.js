@@ -52,7 +52,7 @@ function mainMenu(person, people) {
         "Gender: " + person[0].gender + ". " +
         "DOB: " + person[0].dob + ". " +
         "Height: " + person[0].height + ". " +
-        "Weight: " + person0[0].weight + ". " +
+        "Weight: " + person[0].weight + ". " +
         "Eye Color: " + person[0].eyeColor + ". " +
         "occupation: " + person[0].occupation + ". ")
       break;
