@@ -46,7 +46,7 @@ function mainMenu(person, people) {
       break;
     case "family":
       // TODO: get person's family
-      alert("Spouse: " + person[0].currentSpouse + ". ")
+      alert("Spouse: " + person[0].firstName + person[0].lastName + ". ")
       break;
     case "descendants":
       // TODO: get person's descendants
@@ -62,6 +62,10 @@ function mainMenu(person, people) {
     default:
       return mainMenu(person, people); // ask again
   }
+}
+
+function findSpouse(person, people = data){
+
 }
 
 function getDescendants(person, people, allDescendants = new Array(), j = 0){
