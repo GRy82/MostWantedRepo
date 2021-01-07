@@ -12,7 +12,7 @@ function app(people) {
       searchResults = searchByName(people);
       break;
     case 'no':
-      searchResults = searchByTraits(people, 0);
+      searchResults = searchByTraits(people);
       break;
     default:
       app(people); // restart app
@@ -35,10 +35,10 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
 
-  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   let foundDescendant = people.filter(function (person) {
-    if (person.parents.includes(person.id)) {
+    if (person[0].parents.includes(person[0].id)) {
       return true;
     } else {
       return false;
@@ -49,16 +49,16 @@ function mainMenu(person, people) {
     case "info":
       // TODO: get person's info
       alert(
-        "Gender: " + person.gender + ". " +
-        "DOB: " + person.dob + ". " +
-        "Height: " + person.height + ". " +
-        "Weight: " + person.weight + ". " +
-        "Eye Color: " + person.eyeColor + ". " +
-        "occupation: " + person.occupation + ". ")
+        "Gender: " + person[0].gender + ". " +
+        "DOB: " + person[0].dob + ". " +
+        "Height: " + person[0].height + ". " +
+        "Weight: " + person0[0].weight + ". " +
+        "Eye Color: " + person[0].eyeColor + ". " +
+        "occupation: " + person[0].occupation + ". ")
       break;
     case "family":
       // TODO: get person's family
-      alert("Spouse: " + person.currentSpouse + ". ")
+      alert("Spouse: " + person[0].currentSpouse + ". ")
       break;
     case "descendants":
       // TODO: get person's descendants
