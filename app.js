@@ -48,7 +48,7 @@ function mainMenu(person, people) {
   switch (displayOption) {
     case "info":
       // TODO: get person's info
-      document.write(
+      alert(
         "Gender: " + person.gender + ". " +
         "DOB: " + person.dob + ". " +
         "Height: " + person.height + ". " +
@@ -58,7 +58,7 @@ function mainMenu(person, people) {
       break;
     case "family":
       // TODO: get person's family
-      document.write("Spouse: " + person.currentSpouse + ". ")
+      alert("Spouse: " + person.currentSpouse + ". ")
       break;
     case "descendants":
       // TODO: get person's descendants
