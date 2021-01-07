@@ -1,0 +1,15 @@
+const smallData = [
+    {
+		"id": 878013758,
+		"firstName": "Jill",
+		"lastName": "Pafoy",
+		"gender": "female",
+		"dob": "2/8/1972",
+		"height": 74,
+		"weight": 118,
+		"eyeColor": "brown",
+		"occupation": "programmer",
+		"parents": [401222887],
+		"currentSpouse": 294874671
+	},
+]

@@ -37,14 +37,6 @@ function mainMenu(person, people) {
 
   let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
-  let foundDescendant = people.filter(function (person) {
-    if (person[0].parents.includes(person[0].id)) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
   switch (displayOption) {
     case "info":
       // TODO: get person's info
@@ -62,7 +54,9 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      document.write("Descendants: " + foundDescendant + ".  ")
+      var descendants = [];
+      descendants = getDescendants(person, people);
+      printDescendants(descendants);
       break;
     case "restart":
       app(people); // restart
@@ -74,6 +68,35 @@ function mainMenu(person, people) {
   }
 }
 
+function getDescendants(person, people, allDescendants = new Array(), j = 0){
+  let foundDescendants = people.filter(function (possibleChild) {
+    if (possibleChild.parents.includes(person[j].id)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  if(foundDescendants.length > 0){
+    for(let i = 0; i < foundDescendants.length; i++){
+      allDescendants.push(foundDescendants[i]);
+      allDescendants = getDescendants(foundDescendants, people, allDescendants, i);
+    }
+  }
+  else{
+    return allDescendants;
+  }
+
+  
+}
+
+function printDescendants(descendants){
+  let descendantsString = "";
+  for (let i = 0; i < descendants.length; i++){
+      descendantsString += descendants[i].firstName + descendants[i].lastName + "\n";
+    }
+    alert(descendantsString);
+}
 
 
 function searchByName(people) {
