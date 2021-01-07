@@ -81,20 +81,6 @@ function getDescendants(person, people, allDescendants = new Array(), j = 0){
     }
   }
   return allDescendants;
-};
-
-
-
-  if(foundDescendants.length > 0){
-    for(let i = 0; i < foundDescendants.length; i++){
-      allDescendants = getDescendants(foundDescendants, people, allDescendants, i);
-      allDescendants.concat(foundDescendants);
-    }
-  }
-  else{
-    return allDescendants;
-  }
-
   
 }
 
