@@ -76,7 +76,7 @@ function getDescendants(person, people = data, allDescendants = [], j=0){
     for (let i = 0; i < foundDescendants.length; i++){
       allDescendants.push(foundDescendants[i]);
   //   return getDescendants(foundDescendants, people, allDescendents);
-     allDescendants = getDescendants(foundDescendants, people, allDescendants, i);
+     return getDescendants(foundDescendants, people, allDescendants, i);
     }
   }
   return allDescendants;
