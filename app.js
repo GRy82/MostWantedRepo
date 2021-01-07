@@ -12,7 +12,7 @@ function app(people) {
       searchResults = searchByName(people);
       break;
     case 'no':
-      searchResults = searchByTraits(people);
+      searchResults = searchByTraits(people, 0);
       break;
     default:
       app(people); // restart app
@@ -91,22 +91,26 @@ function searchByName(people) {
   return foundPerson;
 }
 
-function searchByTraits(people){
+function searchByTraits(people, counter){
   let foundPeople = searchSingleTrait(people);
   displayPeople(foundPeople);
   let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  switch(searchType){
+  switch(continueSearch){
     case 'yes':
-      console.log("whatup");
       return searchByTraits(foundPeople);
     case 'no':
-      //Go to the next logical step for user
+      if(foundPeople.length == 1){
+        return foundPeople;  
+      }
       break;
     default:
-      searchByTraits(people); // restart app
+      alert("Could not refine the search ot just one individual.");
+      app(data); // restart app
       break;
   }
-}
+}  
+
+
 
 function searchSingleTrait(people) {
   let traitType = promptFor("Enter EXACTLY what trait to search by(gender, dob, height, weight, eyeColor, occupation): ", chars);
