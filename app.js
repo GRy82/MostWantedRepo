@@ -64,7 +64,13 @@ function mainMenu(person, people) {
   }
 }
 
-function findSpouse(person, people = data){
+function findSpouse(person, people = data, spouse){
+
+  let foundSpouse = people.filter(function(spouse){
+    if (person[0].currentSpouse === spouse.id){
+        return spouse.firstName + spouse.lastName;
+    }
+  });
 
 }
 
