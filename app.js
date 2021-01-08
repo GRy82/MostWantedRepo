@@ -63,12 +63,15 @@ function mainMenu(person, people) {
 }
 
 function findSpouse(person, people = data) {
+  let spouseArray = ["Spouse: "]
   for (let i = 0; i < people.length; i++) {
     if (person.currentSpouse === people[i].id) {
-      return people[i].firstName + " " + people[i].lastName;
+      spouseArray.push(people[i]);
+      return spouseArray;
     } 
   }
-  return "none";
+  spouseArray.push("none");
+  return spouseArray;
 }
 
 function findParents(person, people = data){
@@ -84,21 +87,49 @@ function findParents(person, people = data){
   })
       
   foundParents.unshift("Parent: ");
+  return foundParents;
 }
 
 function findSiblings(person, people = data){
-  let parentsOfPerson = findParents(person, people);
+  var parentsOfPerson = findParents(person, people);
+  var parentsIdArray = [];
+  var foundChildren;
   let wasteVar = parentsOfPerson.shift();
-  let foundChildren = people.filter(function(possibleChild){
-    for(let i = 0; i < possibleChild.parents.length; i++){
-      if(possibleChild.parents.includes(parentsOfPerson[i])){
-        return true;
-      }    
-    }
-    return false;
-  })
 
+  if(parentsOfPerson){
+    for (let j = 0; j < parentsOfPerson.length; j++){
+      parentsIdArray.push(parentsOfPerson[j].id);
+    }
+      foundChildren = people.filter(function(possibleChild){
+        for(let i = 0; i < possibleChild.parents.length; i++){
+          if(parentsIdArray.includes(possibleChild.parents[i]) && person.id != possibleChild.id){
+            return true;
+          }    
+        }
+        return false;
+    })
+  }
+  
   foundChildren.unshift("Sibling: ");
+  return foundChildren;
+}
+
+function getFamily(person, people){
+  let parents = findParents(person, people);
+  let siblings = findSiblings(person, people);
+  let spouse = findSpouse(person, people);
+  
+  let familyArray = [parents, siblings, spouse];
+  let familyString = "";
+
+  for(let i = 0; i < familyArray.length; i++){
+    for(let j = 1; j < familyArray[i].length; j++){
+      familyString += familyArray[i][0] + familyArray[i][j].firstName + " " + familyArray[i][j].lastName + "\n";
+    }
+    familyString += "\n";
+  }
+
+  return familyString;
 }
 
 
