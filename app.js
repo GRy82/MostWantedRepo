@@ -187,7 +187,7 @@ function searchByTraits(people, counter) {
       return searchByTraits(foundPeople);
     case 'no':
       if (foundPeople.length == 1) {
-        return foundPeople;
+        return foundPeople[0];
       }
       break;
     default:
@@ -195,7 +195,11 @@ function searchByTraits(people, counter) {
       app(data); // restart app
       break;
   }
+  alert("Could not refine the search to just one individual.");
+  app(data); // restart app
 }
+
+
 
 
 
@@ -275,7 +279,7 @@ function searchSingleTrait(people) {
 
     // TODO: finish getting the rest of the information to display
 
-    alert(personInfo);
+    return(personInfo);
   }
 
 
