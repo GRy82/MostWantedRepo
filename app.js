@@ -66,10 +66,39 @@ function findSpouse(person, people = data) {
   for (let i = 0; i < people.length; i++) {
     if (person.currentSpouse === people[i].id) {
       return people[i].firstName + " " + people[i].lastName;
-    } else {
-      return "none";
-    }
+    } 
   }
+  return "none";
+}
+
+function findParents(person, people = data){
+  let parentsArray = [];
+
+  let foundParents = people.filter( function (possibleParent){
+    if(person.parents.includes(possibleParent.id)){
+      return true;
+    } else
+    {
+      return false;
+    }
+  })
+      
+  foundParents.unshift("Parent: ");
+}
+
+function findSiblings(person, people = data){
+  let parentsOfPerson = findParents(person, people);
+  let wasteVar = parentsOfPerson.shift();
+  let foundChildren = people.filter(function(possibleChild){
+    for(let i = 0; i < possibleChild.parents.length; i++){
+      if(possibleChild.parents.includes(parentsOfPerson[i])){
+        return true;
+      }    
+    }
+    return false;
+  })
+
+  foundChildren.unshift("Sibling: ");
 }
 
 
@@ -206,23 +235,6 @@ function displayPerson(person) {
 
   alert(personInfo);
 }
-
-
-function getParents(person, people){
-  let parentsArray = [];
-
-    let foundParents = people.filter( function (possibleParent){
-      if(person.parents.includes(possibleParent.id)){
-        return true;
-      } else
-      {
-        return false;
-      }
-    })
-      
-    foundParents.unshift("Parent: ");
-}
-
 
 
 // function that prompts and validates user input
