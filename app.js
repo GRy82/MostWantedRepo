@@ -68,8 +68,7 @@ function findSpouse(person, people = data) {
     if (person.currentSpouse === people[i].id) {
       spouseArray.push(people[i]);
       return spouseArray;
-    }else{
-      return "none";
+  
     }
   }
   spouseArray.push("none");
