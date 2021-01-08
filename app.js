@@ -50,9 +50,7 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      var descendants = [];
-      var allDescendants = new Array();
-      descendants = getDescendants(person, people, allDescendants);
+      var descendants = getDescendants(person, people);
       printDescendants(descendants);
       break;
     case "restart":
@@ -65,7 +63,7 @@ function mainMenu(person, people) {
   }
 }
 
-function getDescendants(person, people, allDescendants){
+function getDescendants(person, people, allDescendants = []){
   let foundDescendants = people.filter(function (possibleChild) {
     if (possibleChild.parents.includes(person.id)) {
       return true;
@@ -73,11 +71,11 @@ function getDescendants(person, people, allDescendants){
       return false;
     }
   });
+  
   if(foundDescendants.length > 0){
     for(let i = 0; i < foundDescendants.length; i++){
       allDescendants.push(foundDescendants[i]);
-      let temporaryArray = allDescendants;
-      allDescendants = getDescendants(foundDescendants[i], people, temporaryArray);
+      allDescendants = getDescendants(foundDescendants[i], people, allDescendants);
     }
   }
   
