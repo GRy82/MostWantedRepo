@@ -180,16 +180,21 @@ function searchByName(people) {
   return foundPerson[0];
 }
 
-function searchByTraits(people, counter) {
+function searchByTraits(people, tempArray = []) {
+  tempArray = people;
   let foundPeople = searchSingleTrait(people);
+  if (foundPeople.length === 0){
+    foundPeople = tempArray;
+    alert("No one found matching that characteristic.");
+  }
   displayPeople(foundPeople);
   let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch (continueSearch) {
     case 'yes':
-      return searchByTraits(foundPeople);
+      return searchByTraits(foundPeople, foundPeople);
     case 'no':
       if (foundPeople.length == 1) {
-        return foundPeople;
+        return foundPeople[0];
       }
       break;
     default:
@@ -197,12 +202,16 @@ function searchByTraits(people, counter) {
       app(data); // restart app
       break;
   }
+  alert("Could not refine the search to just one individual.");
+  app(data); // restart app
 }
 
 
 
+
+
 function searchSingleTrait(people) {
-  var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", chars);
+  var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", traitTypeValidation);
   let trait = promptFor("Enter person's " + traitType + ": ", chars);
 
   if (traitType == "age") {
@@ -296,7 +305,7 @@ function searchSingleTrait(people) {
 
     // TODO: finish getting the rest of the information to display
 
-    alert(personInfo);
+    return(personInfo);
   }
 
 
@@ -316,4 +325,11 @@ function promptFor(question, valid) {
   // helper function to pass in as default promptFor validation
   function chars(input) {
     return true; // default validation only
+  }
+
+  function traitTypeValidation(input){
+    let traitTypeArray = ["gender", "height", "weight", "eyeColor", "occupation", "age"];
+    if (traitTypeArray.includes(input)){
+      return true;
+    }
   }
