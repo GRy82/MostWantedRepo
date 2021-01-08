@@ -71,7 +71,7 @@ function getDescendants(person, people, allDescendants = []){
       return false;
     }
   });
-  
+
   if(foundDescendants.length > 0){
     for(let i = 0; i < foundDescendants.length; i++){
       allDescendants.push(foundDescendants[i]);
@@ -121,22 +121,38 @@ function searchByTraits(people, counter) {
       }
       break;
     default:
-      alert("Could not refine the search ot just one individual.");
+      alert("Could not refine the search to just one individual.");
       app(data); // restart app
       break;
   }
 }
 
-
-
 function searchSingleTrait(people) {
-  let traitType = promptFor("Enter EXACTLY what trait to search by(gender, dob, height, weight, eyeColor, occupation): ", chars);
+  var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", chars);
   let trait = promptFor("Enter person's " + traitType + ": ", chars);
+  
+  if(traitType == "age"){
+    var foundPeople = filterByAge(trait, people);
+  }
+  else{
+    var foundPeople = people.filter(function (person) {
+      if (person[traitType] === trait) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+  } 
 
+  return foundPeople;
+}
+
+
+function filterByAge(age, people){
   let foundPeople = people.filter(function (person) {
-    if (person[traitType] === trait) {
+    if (convertToAge(person["dob"]) == age){
       return true;
-    } else {
+    } else{
       return false;
     }
   })
@@ -144,6 +160,17 @@ function searchSingleTrait(people) {
   return foundPeople;
 }
 
+function convertToAge(dob){
+  const currentDate = new Date();
+  let dobDate = dob.split("/");
+  let age = currentDate.getFullYear() - dobDate[2];
+  let currentMonth = currentDate.getMonth();
+  let currentDay = currentDate.getDay();
+  if(dobDate[0] > currentMonth || (dobDate[0] == currentMonth && dobDate[1] < currentDay)){
+    age -= 1;
+  }
+  return age;
+}
 
 // alerts a list of people
 function displayPeople(people) {
