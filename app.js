@@ -45,8 +45,7 @@ function mainMenu(person, people) {
       alert(displayPerson(person));
       break;
     case "family":
-      // TODO: get person's family
-      alert("Spouse: " + findSpouse(person) + ". " + "Parents: " + findParents(person) + ". ");
+      alert(getFamily(person, people));
       break;
     case "descendants":
       // TODO: get person's descendants
@@ -73,28 +72,6 @@ function findSpouse(person, people = data) {
   }
 }
 
-function findParents(person, people = data) {
-  let parent = person.parents;
-
-  for (let i = 0; i < person.parents.length; i++) {
-  //let foundParents = people.filter(function (parent) {
-    for (let j = 0; j < people.length; i++){
-      if (people[i].id = person.parents) {
-        return "none";
-      } else {
-        return people[i].firstName + " " + people[i].lastName;
-       
-      }
-    }
-    
-  }
-
-
-  console.log(i);
-
-  //console.log(i);
-}
-
 
 function getDescendants(person, people, allDescendants = []) {
   let foundDescendants = people.filter(function (possibleChild) {
@@ -105,8 +82,8 @@ function getDescendants(person, people, allDescendants = []) {
     }
   });
 
-  if (foundDescendants.length > 0) {
-    for (let i = 0; i < foundDescendants.length; i++) {
+  if(foundDescendants.length > 0){
+    for(let i = 0; i < foundDescendants.length; i++){
       allDescendants.push(foundDescendants[i]);
       allDescendants = getDescendants(foundDescendants[i], people, allDescendants);
     }
@@ -154,22 +131,38 @@ function searchByTraits(people, counter) {
       }
       break;
     default:
-      alert("Could not refine the search ot just one individual.");
+      alert("Could not refine the search to just one individual.");
       app(data); // restart app
       break;
   }
 }
 
-
-
 function searchSingleTrait(people) {
-  let traitType = promptFor("Enter EXACTLY what trait to search by(gender, dob, height, weight, eyeColor, occupation): ", chars);
+  var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", chars);
   let trait = promptFor("Enter person's " + traitType + ": ", chars);
+  
+  if(traitType == "age"){
+    var foundPeople = filterByAge(trait, people);
+  }
+  else{
+    var foundPeople = people.filter(function (person) {
+      if (person[traitType] === trait) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+  } 
 
+  return foundPeople;
+}
+
+
+function filterByAge(age, people){
   let foundPeople = people.filter(function (person) {
-    if (person[traitType] === trait) {
+    if (convertToAge(person["dob"]) == age){
       return true;
-    } else {
+    } else{
       return false;
     }
   })
@@ -177,6 +170,17 @@ function searchSingleTrait(people) {
   return foundPeople;
 }
 
+function convertToAge(dob){
+  const currentDate = new Date();
+  let dobDate = dob.split("/");
+  let age = currentDate.getFullYear() - dobDate[2];
+  let currentMonth = currentDate.getMonth();
+  let currentDay = currentDate.getDay();
+  if(dobDate[0] > currentMonth || (dobDate[0] == currentMonth && dobDate[1] < currentDay)){
+    age -= 1;
+  }
+  return age;
+}
 
 // alerts a list of people
 function displayPeople(people) {
@@ -202,6 +206,24 @@ function displayPerson(person) {
 
   alert(personInfo);
 }
+
+
+function getParents(person, people){
+  let parentsArray = [];
+
+    let foundParents = people.filter( function (possibleParent){
+      if(person.parents.includes(possibleParent.id)){
+        return true;
+      } else
+      {
+        return false;
+      }
+    })
+      
+    foundParents.unshift("Parent: ");
+}
+
+
 
 // function that prompts and validates user input
 function promptFor(question, valid) {
