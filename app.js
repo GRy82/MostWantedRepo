@@ -69,6 +69,7 @@ function findSpouse(person, people = data) {
     } else {
       return "none";
     }
+
   }
 }
 
@@ -82,8 +83,8 @@ function getDescendants(person, people, allDescendants = []) {
     }
   });
 
-  if(foundDescendants.length > 0){
-    for(let i = 0; i < foundDescendants.length; i++){
+  if (foundDescendants.length > 0) {
+    for (let i = 0; i < foundDescendants.length; i++) {
       allDescendants.push(foundDescendants[i]);
       allDescendants = getDescendants(foundDescendants[i], people, allDescendants);
     }
@@ -137,108 +138,117 @@ function searchByTraits(people, counter) {
   }
 }
 
+
+
 function searchSingleTrait(people) {
   var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", chars);
   let trait = promptFor("Enter person's " + traitType + ": ", chars);
-  
-  if(traitType == "age"){
+
+  if (traitType == "age") {
     var foundPeople = filterByAge(trait, people);
+  // if (traitTye == "height") {
+  //   var foundPeople = convertToAge(trait, people);
+    } else {
+      var foundPeople = people.filter(function (person) {
+        if (person[traitType] === trait) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    }
+
+    return foundPeople;
   }
-  else{
-    var foundPeople = people.filter(function (person) {
-      if (person[traitType] === trait) {
+
+
+  function filterByAge(age, people) {
+    let foundPeople = people.filter(function (person) {
+      if (convertToAge(person["dob"]) == age) {
         return true;
       } else {
         return false;
       }
     })
-  } 
 
-  return foundPeople;
-}
-
-
-function filterByAge(age, people){
-  let foundPeople = people.filter(function (person) {
-    if (convertToAge(person["dob"]) == age){
-      return true;
-    } else{
-      return false;
-    }
-  })
-
-  return foundPeople;
-}
-
-function convertToAge(dob){
-  const currentDate = new Date();
-  let dobDate = dob.split("/");
-  let age = currentDate.getFullYear() - dobDate[2];
-  let currentMonth = currentDate.getMonth();
-  let currentDay = currentDate.getDay();
-  if(dobDate[0] > currentMonth || (dobDate[0] == currentMonth && dobDate[1] < currentDay)){
-    age -= 1;
+    return foundPeople;
   }
-  return age;
-}
 
-// alerts a list of people
-function displayPeople(people) {
-  alert(people.map(function (person) {
-    return person.firstName + " " + person.lastName;
-  }).join("\n"));
-}
+  function convertToAge(dob) {
+    const currentDate = new Date();
+    let dobDate = dob.split("/");
+    let age = currentDate.getFullYear() - dobDate[2];
+    let currentMonth = currentDate.getMonth();
+    let currentDay = currentDate.getDay();
+    if (dobDate[0] > currentMonth || (dobDate[0] == currentMonth && dobDate[1] < currentDay)) {
+      age -= 1;
+    }
+    return age;
+  }
 
-function displayPerson(person) {
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "Gender: " + person.gender + "\n";
-  personInfo += "DOB: " + person.dob + "\n"
-  personInfo += "Height: " + person.height + "\n"; //convert into height and inches??
-  personInfo += "Weight: " + person.weight + "\n";
-  personInfo += "Eye color: " + person.eyeColor + "\n";
-  personInfo += "Occupation: " + person.occupation + "\n";
+  function convertToFeetAndInces(person) {
+    let height = person.height;
+    let feet = Math.floor(height / 12);
+    let inches = (height - (feet * 12));
+    return feet + " ft " + inches + " inches";
+  }
+
+  // alerts a list of people
+  function displayPeople(people) {
+    alert(people.map(function (person) {
+      return person.firstName + " " + person.lastName;
+    }).join("\n"));
+  }
+
+  function displayPerson(person) {
+    // print all of the information about a person:
+    // height, weight, age, name, occupation, eye color.
+    let personInfo = "First Name: " + person.firstName + "\n";
+    personInfo += "Last Name: " + person.lastName + "\n";
+    personInfo += "Gender: " + person.gender + "\n";
+    personInfo += "DOB: " + person.dob + "\n"
+    personInfo += "Age: " + convertToAge(person.dob) + "\n"
+    personInfo += "Height: " + convertToFeetAndInces(person)+ "\n"; //convert into height and inches??
+    personInfo += "Weight: " + person.weight + "\n";
+    personInfo += "Eye color: " + person.eyeColor + "\n";
+    personInfo += "Occupation: " + person.occupation + "\n";
 
 
-  // TODO: finish getting the rest of the information to display
+    // TODO: finish getting the rest of the information to display
 
-  alert(personInfo);
-}
+    alert(personInfo);
+  }
 
 
-function getParents(person, people){
-  let parentsArray = [];
+  function getParents(person, people) {
+    let parentsArray = [];
 
-    let foundParents = people.filter( function (possibleParent){
-      if(person.parents.includes(possibleParent.id)){
+    let foundParents = people.filter(function (possibleParent) {
+      if (person.parents.includes(possibleParent.id)) {
         return true;
-      } else
-      {
+      } else {
         return false;
       }
     })
-      
+
     foundParents.unshift("Parent: ");
-}
+  }
 
 
+  // function that prompts and validates user input
+  function promptFor(question, valid) {
+    do {
+      var response = prompt(question).trim();
+    } while (!response || !valid(response));
+    return response;
+  }
 
-// function that prompts and validates user input
-function promptFor(question, valid) {
-  do {
-    var response = prompt(question).trim();
-  } while (!response || !valid(response));
-  return response;
-}
+  // helper function to pass into promptFor to validate yes/no answers
+  function yesNo(input) {
+    return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
+  }
 
-// helper function to pass into promptFor to validate yes/no answers
-function yesNo(input) {
-  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
-}
-
-// helper function to pass in as default promptFor validation
-function chars(input) {
-  return true; // default validation only
-}
+  // helper function to pass in as default promptFor validation
+  function chars(input) {
+    return true; // default validation only
+  }
