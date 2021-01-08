@@ -299,7 +299,7 @@ function promptFor(question, valid) {
 
   function traitTypeValidation(input){
     let traitTypeArray = ["gender", "height", "weight", "eyeColor", "occupation", "age"];
-    if (traitTypeValidation.includes(input)){
+    if (traitTypeArray.includes(input)){
       return true;
     }
   }
