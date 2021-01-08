@@ -50,9 +50,7 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       // TODO: get person's descendants
-      var descendants = [];
-      var allDescendants = new Array();
-      descendants = getDescendants(person, people, allDescendants);
+      var descendants = getDescendants(person, people);
       printDescendants(descendants);
       break;
     case "restart":
@@ -75,23 +73,30 @@ function findSpouse(person, people = data) {
   }
 }
 
-function findParents(person, people = data){
+function findParents(person, people = data) {
+  let parent = person.parents;
 
-  for (let i = 0; i < people.length; i++) {
-    if (person.parents.includes(people[i].id)){
-      return people[i].firstName + " " + people[i].lastName;
-    } else {
-      return "none";
+  for (let i = 0; i < person.parents.length; i++) {
+  //let foundParents = people.filter(function (parent) {
+    for (let j = 0; j < people.length; i++){
+      if (people[i].id = person.parents) {
+        return "none";
+      } else {
+        return people[i].firstName + " " + people[i].lastName;
+       
+      }
     }
+    
   }
+
+
+  console.log(i);
 
   //console.log(i);
 }
 
 
-
-function getDescendants(person, people, allDescendants) {
-  console.log(person);
+function getDescendants(person, people, allDescendants = []) {
   let foundDescendants = people.filter(function (possibleChild) {
     if (possibleChild.parents.includes(person.id)) {
       return true;
@@ -99,15 +104,17 @@ function getDescendants(person, people, allDescendants) {
       return false;
     }
   });
+
   if (foundDescendants.length > 0) {
     for (let i = 0; i < foundDescendants.length; i++) {
       allDescendants.push(foundDescendants[i]);
-      let temporaryArray = allDescendants;
-      allDescendants = getDescendants(foundDescendants[i], people, temporaryArray);
+      allDescendants = getDescendants(foundDescendants[i], people, allDescendants);
     }
-  } else {
-    return allDescendants;
   }
+
+  console.log(person.firstName + "completed");
+  return allDescendants;
+
 }
 
 function printDescendants(descendants) {
