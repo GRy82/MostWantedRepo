@@ -36,8 +36,8 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
 
-  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-  
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+
 
   switch (displayOption) {
     case "info":
@@ -46,12 +46,13 @@ function mainMenu(person, people) {
       break;
     case "family":
       // TODO: get person's family
-      alert("Spouse: " + person[0].firstName + person[0].lastName + ". ")
+      alert("Spouse: " + findSpouse(person) + ". " + "Parents: " + findParents(person) + ". ");
       break;
     case "descendants":
       // TODO: get person's descendants
       var descendants = [];
-      descendants = getDescendants(person, people);
+      var allDescendants = new Array();
+      descendants = getDescendants(person, people, allDescendants);
       printDescendants(descendants);
       break;
     case "restart":
@@ -64,42 +65,57 @@ function mainMenu(person, people) {
   }
 }
 
-function findSpouse(person, people = data, spouse){
-
-  let foundSpouse = people.filter(function(spouse){
-    if (person[0].currentSpouse === spouse.id){
-        return spouse.firstName + spouse.lastName;
+function findSpouse(person, people = data) {
+  for (let i = 0; i < people.length; i++) {
+    if (person.currentSpouse === people[i].id) {
+      return people[i].firstName + " " + people[i].lastName;
+    } else {
+      return "none";
     }
-  });
-
+  }
 }
 
-function getDescendants(person, people, allDescendants = new Array(), j = 0){
+function findParents(person, people = data){
+
+  for (let i = 0; i < people.length; i++) {
+    if (person.parents.includes(people[i].id)){
+      return people[i].firstName + " " + people[i].lastName;
+    } else {
+      return "none";
+    }
+  }
+
+  //console.log(i);
+}
+
+
+
+function getDescendants(person, people, allDescendants) {
   console.log(person);
   let foundDescendants = people.filter(function (possibleChild) {
-    if (possibleChild.parents.includes(person[j].id)) {
+    if (possibleChild.parents.includes(person.id)) {
       return true;
     } else {
       return false;
     }
   });
-  if(foundDescendants.length > 0){
-    for (let i = 0; i < foundDescendants.length; i++){
+  if (foundDescendants.length > 0) {
+    for (let i = 0; i < foundDescendants.length; i++) {
       allDescendants.push(foundDescendants[i]);
-  //   return getDescendants(foundDescendants, people, allDescendents);
-     return getDescendants(foundDescendants, people, allDescendants, i);
+      let temporaryArray = allDescendants;
+      allDescendants = getDescendants(foundDescendants[i], people, temporaryArray);
     }
+  } else {
+    return allDescendants;
   }
-  return allDescendants;
-  
 }
 
-function printDescendants(descendants){
+function printDescendants(descendants) {
   let descendantsString = "";
-  for (let i = 0; i < descendants.length; i++){
-      descendantsString += descendants[i].firstName + descendants[i].lastName + "\n";
-    }
-    alert(descendantsString);
+  for (let i = 0; i < descendants.length; i++) {
+    descendantsString += descendants[i].firstName + descendants[i].lastName + "\n";
+  }
+  alert(descendantsString);
 }
 
 
@@ -115,7 +131,7 @@ function searchByName(people) {
     }
   })
   // TODO: find the person using the name they entered
-  return foundPerson;
+  return foundPerson[0];
 }
 
 function searchByTraits(people, counter) {
@@ -165,14 +181,14 @@ function displayPeople(people) {
 function displayPerson(person) {
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person[0].firstName + "\n";
-  personInfo += "Last Name: " + person[0].lastName + "\n";
-  personInfo += "Gender: " + person[0].gender + "\n";
-  personInfo += "DOB: " + person[0].dob + "\n"
-  personInfo += "Height: " + person[0].height + "\n"; //convert into height and inches??
-  personInfo += "Weight: " + person[0].weight + "\n";
-  personInfo += "Eye color: " + person[0].eyeColor + "\n";
-  personInfo += "Occupation: " + person[0].occupation + "\n";
+  let personInfo = "First Name: " + person.firstName + "\n";
+  personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "DOB: " + person.dob + "\n"
+  personInfo += "Height: " + person.height + "\n"; //convert into height and inches??
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
 
 
   // TODO: finish getting the rest of the information to display
