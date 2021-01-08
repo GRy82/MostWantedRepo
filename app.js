@@ -68,7 +68,9 @@ function findSpouse(person, people = data) {
     if (person.currentSpouse === people[i].id) {
       spouseArray.push(people[i]);
       return spouseArray;
-    } 
+    }else{
+      return "none";
+    }
   }
   spouseArray.push("none");
   return spouseArray;
@@ -145,7 +147,7 @@ function getDescendants(person, people, allDescendants = []) {
   if (foundDescendants.length > 0) {
     for (let i = 0; i < foundDescendants.length; i++) {
       allDescendants.push(foundDescendants[i]);
-      allDescendants = getDescendants(foundDescendants[i], people, allDescendants);
+      allDescendants= getDescendants(foundDescendants[i], people, allDescendants);
     }
   }
 
@@ -220,6 +222,25 @@ function searchSingleTrait(people) {
     return foundPeople;
   }
 
+  // function searchMultipleTraits(people) {
+  //   let traits = [];
+
+  //   var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", chars);
+  //   let traitOne = promptFor("Enter person's " + traitType + ": ", chars);
+  //   let traitTwo = promptFor("Enter person's " + traitType + ": ", chars);
+ 
+ 
+  //       var foundPeople = people.filter(function (person) {
+  //         if (person[traitType] === traitOne) {
+  //           return true;
+  //         } else {
+  //           return false;
+  //         }
+  //       });
+      
+  
+  //     return foundPeople;
+  //   }
 
   function filterByAge(age, people) {
     let foundPeople = people.filter(function (person) {
