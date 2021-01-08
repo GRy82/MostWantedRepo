@@ -45,8 +45,7 @@ function mainMenu(person, people) {
       alert(displayPerson(person));
       break;
     case "family":
-      // TODO: get person's family
-      alert("Spouse: " + person.currentSpouse + ". ")
+      alert(getFamily(person, people));
       break;
     case "descendants":
       // TODO: get person's descendants
@@ -196,6 +195,24 @@ function displayPerson(person) {
 
   alert(personInfo);
 }
+
+
+function getParents(person, people){
+  let parentsArray = [];
+
+    let foundParents = people.filter( function (possibleParent){
+      if(person.parents.includes(possibleParent.id)){
+        return true;
+      } else
+      {
+        return false;
+      }
+    })
+      
+    foundParents.unshift("Parent: ");
+}
+
+
 
 // function that prompts and validates user input
 function promptFor(question, valid) {
