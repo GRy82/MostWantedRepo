@@ -178,13 +178,18 @@ function searchByName(people) {
   return foundPerson[0];
 }
 
-function searchByTraits(people, counter) {
+function searchByTraits(people, tempArray = []) {
+  tempArray = people;
   let foundPeople = searchSingleTrait(people);
+  if (foundPeople.length === 0){
+    foundPeople = tempArray;
+    alert("No one found matching that characteristic.");
+  }
   displayPeople(foundPeople);
   let continueSearch = promptFor("Do you want to enter another trait? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch (continueSearch) {
     case 'yes':
-      return searchByTraits(foundPeople);
+      return searchByTraits(foundPeople, foundPeople);
     case 'no':
       if (foundPeople.length == 1) {
         return foundPeople[0];
