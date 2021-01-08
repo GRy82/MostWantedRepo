@@ -200,7 +200,7 @@ function searchByTraits(people, counter) {
 
 
 function searchSingleTrait(people) {
-  var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", chars);
+  var traitType = promptFor("Enter EXACTLY what trait to search by(gender, age, height, weight, eyeColor, occupation): ", traitTypeValidation);
   let trait = promptFor("Enter person's " + traitType + ": ", chars);
 
   if (traitType == "age") {
@@ -295,4 +295,11 @@ function promptFor(question, valid) {
   // helper function to pass in as default promptFor validation
   function chars(input) {
     return true; // default validation only
+  }
+
+  function traitTypeValidation(input){
+    let traitTypeArray = ["gender", "height", "weight", "eyeColor", "occupation", "age"];
+    if (traitTypeValidation.includes(input)){
+      return true;
+    }
   }
